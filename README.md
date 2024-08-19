@@ -4,9 +4,9 @@
 1. [Project Overview](#project-overview)
 2. [Data Overview](#data-overview)
 3. [Objectives](#objectives)
-4. [SQL and DAX Queries](#sql-and-dax-queries)
+4. [SQL and Tableau Calculated Fields](#sql-and-tableau-calculated-fields)
     - [SQL Queries](#sql-queries)
-    - [DAX Queries](#dax-queries)
+    - [Tableau Calculated Fields](#tableau-calculated-fields)
 5. [Tableau Visualization](#tableau-visualization)
 6. [Insights and Recommendations](#insights-and-recommendations)
 7. [Conclusion](#conclusion)
@@ -25,7 +25,7 @@ This project focuses on analyzing credit card complaints data, offering insights
 - **Geographical Insights:** Analyze the distribution of complaints across different regions.
 - **Customer Satisfaction:** Examine the correlation between the type of response and customer satisfaction.
 
-## SQL and DAX Queries
+## SQL and Tableau Calculated Fields
 
 ### SQL Queries
 Here are some example SQL queries used in this project:
@@ -62,26 +62,35 @@ GROUP BY Issue
 ORDER BY ComplaintCount DESC;
 ```
 
-### DAX Queries
-Below are some DAX queries used for the analysis:
+### Tableau Calculated Fields
+Below are some Tableau Calculated Fields used for the analysis:
 
-```dax
--- Total Complaints
-TotalComplaints = COUNT(ComplaintsData[ComplaintID])
+#### 1. **Total Complaints**
+   - **Tableau Calculated Field:**
+     ```tableau
+     COUNT([ComplaintID])
+     ```
+   - **Purpose**: This field calculates the total number of complaints.
 
--- Timely Response Rate
-TimelyResponseRate = CALCULATE(COUNT(ComplaintsData[ComplaintID]), ComplaintsData[TimelyResponse] = "Yes") / [TotalComplaints]
+#### 2. **Timely Response Rate**
+   - **Tableau Calculated Field:**
+     ```tableau
+     SUM(IF [TimelyResponse] = "Yes" THEN 1 ELSE 0 END) / COUNT([ComplaintID])
+     ```
+   - **Purpose**: This field calculates the rate of timely responses by dividing the number of timely responses by the total number of complaints.
 
--- Complaints by State
-ComplaintsByState = SUMMARIZE(
-    ComplaintsData,
-    ComplaintsData[State],
-    "TotalComplaints", [TotalComplaints]
-)
+#### 3. **Complaints Closed with Explanation or Relief**
+   - **Tableau Calculated Field:**
+     ```tableau
+     SUM(IF [CompanyResponse] = "Closed with explanation" 
+           OR [CompanyResponse] = "Closed with monetary relief" 
+           THEN 1 ELSE 0 END) / COUNT([ComplaintID])
+     ```
+   - **Purpose**: This field calculates the rate of complaints closed with an explanation or monetary relief.
 
--- Closed Complaints Rate
-ClosedComplaintsRate = CALCULATE(COUNT(ComplaintsData[ComplaintID]), ComplaintsData[CompanyResponse] IN {"Closed with explanation", "Closed with monetary relief"}) / [TotalComplaints]
-```
+#### 4. **Complaints by State**
+   - **Tableau Approach**:
+     - To visualize complaints by state, you can drag the `State` dimension to the `Rows` or `Columns` shelf and `ComplaintID` to the `Text`, `Color`, or `Size` marks in Tableau. This gives a breakdown of total complaints per state without needing a specific calculated field.
 
 ## Tableau Visualization
 The Tableau dashboard provides a detailed view of:
