@@ -117,6 +117,4 @@ This analysis provides critical insights into credit card complaint patterns, he
 ## Additional Resources
 - [Download the Dataset](https://public.tableau.com/vizql/v_202422408070112/javascripts/hybrid-window/min/index.html?id=1i5ldomqk%24rfy6-fx-sh-k1-34wbg3&moduleId=view_data)
 - [View Tableau Dashboard](https://public.tableau.com/app/profile/noe.careme.fouotsa.manfouo/viz/CreditCardComplaints_17220260717800/CreditCardComplaints)
-- [Project Presentation](#)
-
 ---
